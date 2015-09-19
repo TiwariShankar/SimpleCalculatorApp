@@ -10,16 +10,23 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    
+    @IBOutlet weak var display: UILabel!
+    
+    var userinmiddleofwriting :Bool = false
+    
+    @IBAction func keypressed(sender: UIButton) {
+    
+        let digit = sender.currentTitle!
+       
+        if(userinmiddleofwriting){
+            display.text = display.text! + digit
+        }else{
+            display.text = digit
+            userinmiddleofwriting = true
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
+    
+    
 }
 
