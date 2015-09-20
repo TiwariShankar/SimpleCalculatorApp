@@ -14,8 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
     
     var userinmiddleofwriting :Bool = false
-    var arrayStack = Array<Double>();
-    
+    var brain = CalBrain()
+   
     @IBAction func digitPressed(sender: UIButton) {
         let digit = sender.currentTitle!
         
@@ -29,56 +29,31 @@ class ViewController: UIViewController {
     
     @IBAction func enterPressed() {
         userinmiddleofwriting = false
-        arrayStack.append(displayVal)
-       print("\(arrayStack)")
+        if let result = brain.pushOperand(displayVal){
+            displayVal = result
+        }else{
+            displayVal = 0
+        }
     }
     
     
     @IBAction func operatorPressed(sender: UIButton) {
-        let caseoperator = sender.currentTitle!
-        if userinmiddleofwriting{
+       if userinmiddleofwriting{
             enterPressed()
         }
         
-        switch caseoperator {
-            case "+":
-                performOperation {$0 + $1}
-                break
-            
-            case "-":
-                performOperation {$0 - $1}
-                break
-            
-            case "/":
-                performOperation {$0 / $1}
-                break
-            
-            case "*":
-                performOperation {$0 * $1}
-                break
-            
-            case "root":
-                performOperation { sqrt($0) }
-                break
-        default: break
+        if let caseoperator = sender.currentTitle {
+            if let result = brain.performOperation(caseoperator){
+                displayVal = result
+            }else{
+                displayVal = 0
+            }
         }
-    }
-    
-    func performOperation(operation: (Double, Double) -> Double){
-        if arrayStack.count >= 2 {
-            displayVal = operation(arrayStack.removeLast(), arrayStack.removeLast())
-            enterPressed()
-        }
+        
         
     }
     
-    private func performOperation (operation : (Double) -> Double){
-        if arrayStack.count >= 1 {
-            displayVal = operation(arrayStack.removeLast())
-            enterPressed()
-        }
-    }
-    
+
    
     var displayVal : Double {
         get {
