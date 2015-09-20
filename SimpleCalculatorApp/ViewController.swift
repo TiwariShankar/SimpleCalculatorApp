@@ -57,6 +57,9 @@ class ViewController: UIViewController {
                 performOperation {$0 * $1}
                 break
             
+            case "root":
+                performOperation { sqrt($0) }
+                break
         default: break
         }
     }
@@ -69,6 +72,14 @@ class ViewController: UIViewController {
         
     }
     
+    private func performOperation (operation : (Double) -> Double){
+        if arrayStack.count >= 1 {
+            displayVal = operation(arrayStack.removeLast())
+            enterPressed()
+        }
+    }
+    
+   
     var displayVal : Double {
         get {
             return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
